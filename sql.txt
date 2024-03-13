@@ -1,0 +1,211 @@
+drop table lckTicketing purge;
+drop table lckMatchPrediction purge;
+drop table lckMVP purge;
+drop table lckReply purge;
+drop table lckGame purge;
+drop table lckTeamRanking purge;
+drop table lckGoods purge;
+drop table lckBlackList purge;
+drop table lckLike purge;
+drop table lckMemberGoods purge;
+
+drop table lckTeamInfo purge;
+drop table lckBoard purge;
+drop table lckMember purge;
+
+-- 프로필 컬럼 추가 - 프로필 이미지담는 컬럼 null 가능 null일 경우
+-- 임의의 기본이미지 띄울 예정
+create table lckMember(
+    idx             number          generated as identity  primary key,
+    userid          varchar2(300)   not null unique,
+    userpw          varchar2(500)   not null,
+    nickname        varchar2(200)   not null,
+    email           varchar2(200)   not null,
+    favoriteTeam    varchar2(100)   not null,
+    grade           number          not null,
+    locked          number          not null   check(locked in(0,1)),
+    mainPosition    varchar2(100),
+    subPosition     varchar2(100),
+    point           number          default 0 check(point >= 0),
+    ticket          number          default 0 check(ticket >= 0),
+    profile         varchar2(500)
+);
+
+-- isNotice 컬럼 추가 - 공지글인지 확인하는 컬럼
+create table lckBoard(
+    idx             number    generated as identity primary key,
+    title           varchar2(300)   not null,
+    writer          varchar2(300)   not null,
+    content         varchar2(4000)  not null,
+    category        varchar2(200)   not null,
+    writeDate       date            default sysdate,
+    image           varchar2(500),
+    isNotice	       char(1)	default 0 check(isNotice in('0','1')),
+    
+    constraint lckBoard_lckMember_fk
+    foreign key (writer)
+    references lckMember(userid)
+);
+
+create table lckReply(
+    idx             number          generated as identity primary key,
+    boardIdx        number          not null,
+    writer          varchar2(300)   not null,
+    content         varchar2(1000)  not null,
+    image           varchar2(500)   not null,
+    
+    constraint lckReply_lckBoard_fk
+    foreign key (boardIdx)
+    references lckBoard(idx),
+    
+    constraint lckReply_lckMember_fk
+    foreign key (writer)
+    references lckMember(userid)
+);
+
+create table lckLike(
+    idx             number          generated as identity primary key,
+    boardReplyIdx   number          not null,
+    likey           number          default 0 check(likey in(0,1)),
+    hate            number          default 0 check(hate in(0,1)),
+    isBoard         number          check(isBoard in(0,1))
+);
+
+create table lckBlackList(
+    idx             number          generated as identity primary key,
+    reportUser      varchar2(300)   not null,
+    reportedUser    varchar2(300)   not null,
+    boardReplyIdx   number          not null,
+    isBoard         number          not null
+);
+
+create table lckGoods(
+    idx             number          generated as identity primary key,
+    name            varchar2(300)   not null,
+    ticketCount     number          not null check(ticketCount  >= 0),
+    image           varchar2(500)   not null,
+    productCount    number          default 0 not null,
+    saled           number          default 0 not null,
+    deleted         number          default 0 check(deleted in(0,1))
+);
+
+-- 추가테이블 - 멤버들이 응모에 당첨되었을 때 상품을 담을 테이블
+create table lckMemberGoods(
+	  idx             number          generated as identity primary key,
+	goodsIdx	   number		not null,
+	count		   number		default 1,
+	userid           varchar2(300)    not null
+);
+
+-- 팀 정보만 담고 팀 승률관련 정보는 따로 팀 순위 테이블 생성
+create table lckTeamInfo(
+    teamName       	 varchar2(100)    not null primary key,
+    top             		varchar2(100)    not null,
+    jungle         		 varchar2(100)    not null,
+    mid            		 varchar2(100)    not null,
+    adCarry            	  varchar2(100)    not null,
+    supporter        	 varchar2(100)    not null,
+    coach         		  varchar2(100)    not null,
+     headCoach     	  varchar2(100)    not null,
+    topImageURL		 varchar2(500)	not null,
+    jungleImageURL	varchar2(500)	not null,
+    midImageURL 	varchar2(500)	not null,
+    adCarryImageURL	 varchar2(500)	not null,
+    suppoterImageURL	 varchar2(500)	not null
+);
+
+-- 팀 순위를 담는 테이블 추가
+create table lckTeamRanking(
+	teamName        		varchar2(100)    not null,
+    teamImg                 varchar2(500)   not null,
+	win               		number          not null check(win >= 0),
+	lose              		number          not null check(lose >= 0),
+	seriesWinPercentage	number	    not null,
+	gamesRecord		varchar2(50)	    not null,
+	difference       		number          not null,
+
+	constraint lckTeamRanking_lckTeamInfo_fk
+    	foreign key (teamName)
+    	references lckTeamInfo(teamName)
+);
+
+create table lckGame(
+    idx             number          generated as identity primary key,
+    redTeam         varchar2(100)   not null,
+    blueTeam        varchar2(100)   not null,
+    redScore        number          not null,
+    blueScore       number          not null,
+    gameTime        date            not null,
+    result          number          check(result in(0,1,2)),
+    url             varchar2(300)   
+);
+
+-- mvpCount 컬럼 추가 - 처음 mvp투표된 선수는 insert 그 후 mvp는 update로 카운트만 증가
+create table lckMVP(
+    playerName      varchar2(100)   not null,
+    userid          varchar2(300)   not null,
+    gameIdx         number          not null,
+    mvpCount	number	     default 1,
+    
+    constraint lckMVP_lckBoard_fk
+    foreign key (gameIdx)
+    references lckGame(idx),
+    
+    constraint lckMVP_lckMember_fk
+    foreign key (userid)
+    references lckMember(userid)
+);
+
+create table lckMatchPrediction(
+    gameIdx         number         not null,
+    bettingTeam     number         check(bettingTeam in(0,1)),
+    userid          varchar2(300)  not null,
+    
+    constraint lckMatchPrediction_lckGame_fk
+    foreign key (gameIdx)
+    references lckGame(idx),
+    
+    constraint lckMatchPrediction_lckMember_fk
+    foreign key (userid)
+    references lckMember(userid)
+);
+
+create table lckTicketing(
+    gameIdx         number        not null,
+    gameTime        date          not null,
+    seat            varchar2(100) not null,
+    userid          varchar2(300) not null,
+    deleted         number        default 0 check(deleted in(0,1)),
+    
+    constraint lckTicketing_lckGame_fk
+    foreign key (gameIdx)
+    references lckGame(idx),
+    
+    constraint lckTicketing_lckMember_fk
+    foreign key (userid)
+    references lckMember(userid)
+);
+
+select * from lckteaminfo;
+select * from lckteamranking;
+
+commit;
+
+ALTER TABLE lckGame
+MODIFY result NUMBER CHECK (result IN (0,1,2));
+--0 종료, 1 진행중, 2시작 전  
+
+ALTER TABLE lckGame
+RENAME COLUMN result TO status;
+
+select * from lckGame;
+
+delete from lckgame where idx = 2;
+
+INSERT INTO lckGame (redTeam, blueTeam, redScore, blueScore, gameTime, status, url)
+VALUES ('SK Telecom T1', 'KT Rolster', 2, 1, TO_DATE('2024-03-13 14:30', 'YYYY-MM-DD HH24:MI'), 1, 'http://example.com');
+INSERT INTO lckGame (redTeam, blueTeam, redScore, blueScore, gameTime, status, url)
+VALUES ('SK Telecom T1', 'KT Rolster', 2, 1, TO_DATE('2023-02-13 19:00', 'YYYY-MM-DD HH24:MI'), 0, 'http://example.com');
+SELECT *
+FROM lckGame
+WHERE EXTRACT(Month FROM gameTime) = 02;
