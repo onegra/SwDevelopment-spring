@@ -23,6 +23,7 @@
     	background-color: #fafbfe;
     	padding: 13px 15px;
     	font-size: 18px;
+    	border-top: 1px solid #ededed;
     	border-bottom: 1px solid #EDEDEd;
     }
     .list {
@@ -71,14 +72,16 @@
 			
         </div>
         <div class="box item">
-        <c:forEach var="dto" items="${list }">
-        
-           <div class="date"><a>${dto.gameTime }</a></div>
-           <ul class="box list">
+        <c:forEach var="date" items="${datelist }">
+        		<div>
+        			<p class="date">${date }</p>
+        			<c:forEach var="dto" items="${list }">
+        				<c:if test="${date == dto.formatTime }">
+        					<ul class="box list">
               <li class="game1 flex">
                  <div class="day">
-                    <span class="time">21:00</span>
-                    <span class="result">${dto.status }</span>
+                    <span class="time"><fmt:formatDate value="${dto.gameTime }" pattern="HH:mm"/></span>
+                    <span class="result">${dto.status == 0 ? "종료" : dto.status == 1 ? "경기중" : "예정"}</span>
                  </div>
                  <div class="score flex">
                     <div class="score1">
@@ -100,18 +103,45 @@
                     
                  <div class="btns">
                     <div class="btn">
-                    	<!-- /game/video/${dto.idx}로 변환 -->
-                    	<a href="${cpath }/game/video/">
-                    	 <button>다시보기</button>
-                    	</a>
-                    </div>
+                    	<!-- <c:choose>
+                                <c:when test="${dto.status == 0}">
+                                    <a href="${cpath}/game/video/${dto.idx}">
+                                        <button>다시보기</button>
+                                    </a>
+                                </c:when>
+                                <c:when test="${dto.status == 1}">
+                                    <a href="${cpath}/game/watch/${dto.idx}">
+                                        <button>경기 보러가기</button>
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${cpath}/game/predict/${dto.idx}">
+                                        <button>예측하기</button>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose> -->
+                            <c:choose>
+                                <c:when test="${dto.status == 0 or dto.status == 1}">
+                                    <a href="${cpath}/game/video/">
+                                        <button>다시보기</button>
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${cpath}/game/predict/">
+                                        <button>예측하기</button>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                  </div>
               </li>
            </ul>
-        
-        </c:forEach>
+        				</c:if>
+        			</c:forEach>
+        		</div>
+        	</c:forEach>
         </div>
-     </div>
+</div>
 
 
 

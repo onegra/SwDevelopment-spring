@@ -17,6 +17,7 @@ public class LCKGameDTO {
 	private int redScore;
 	private int blueScore;
 	private Date gameTime;
+	private String formatTime;
 	private int status;
 	private String url;
 	public int getIdx() {
@@ -66,6 +67,20 @@ public class LCKGameDTO {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	private Date time;
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	public String getFormatTime() {
+		return formatTime;
+	}
+	public void setFormatTime(String formatTime) {
+		this.formatTime = formatTime;
 	}
 	
 	

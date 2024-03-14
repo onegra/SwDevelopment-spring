@@ -9,7 +9,10 @@ import com.itbank.model.LCKGameDTO;
 @Repository
 public interface LCKGameDAO {
 	
-	@Select("select * from lckgame order by idx")
+	@Select("SELECT * FROM lckGame order by gameTime")
 	List<LCKGameDTO> selectList();
+
+	@Select("select gameTime from lckGame order by gameTime")
+	List<LCKGameDTO> selectTimeList();
 
 }

@@ -1,5 +1,6 @@
 package com.itbank.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,15 @@ public class GameService {
 	@Autowired private LCKGameDAO dao;
 
 	public List<LCKGameDTO> getlist() {
-		return dao.selectList();
+		List<LCKGameDTO> list = dao.selectList();
+		for(LCKGameDTO dto : list) {
+			String date = "";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = sdf.format(dto.getGameTime());
+			dto.setFormatTime(date);
+		}
+		return list;
 	}
-	
+
 	
 }
