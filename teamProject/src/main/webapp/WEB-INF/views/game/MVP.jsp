@@ -50,44 +50,41 @@
 		<p style="color: #858894;" >팬들이 직접 선정한 매치 MVP 입니다.</p>
 	</div>
 	<div class="sub_title">
-		<div class="season">2024 LCK Spring 정규시즌 2R</div>
-		 <span class="day">03월 10일 일요일 17:00</span>
+		 <span class="day"><fmt:formatDate value="${dto.gameTime }" pattern="YYYY-MM-dd HH:mm"/></span>
 	</div>
 	<table class="teamlist">
 		<thead>
-		<c:forEach var="dto" items="${list }"/>
-		<!-- 경기 일정에서 가져와야함(db미구현) -->
 			 <tr>
-			 	<th>${dto.TeamName }</th>
+			 	<th>${dto.redTeam }</th>
 			 	<th>vs</th>
-			 	<th>${dto.TeamName }</th>
+			 	<th>${dto.blueTeam }</th>
 			 </tr>
 		</thead>
 		<tbody>
 		<tr>
-			<td>${dto.Top }</td>
+			<td>${dto.redTop }</td>
 			<td></td>
-			<td>${dto.Top }</td>
+			<td>${dto.blueTop }</td>
 		</tr>
 		<tr>
-			<td>${dto.jungle }</td>
+			<td>${dto.redJungle }</td>
 			<td></td>
-			<td>${dto.jungle }</td>
+			<td>${dto.blueJungle }</td>
 		</tr>
 		<tr>
-			<td>${dto.Mid }</td>
+			<td>${dto.redMid }</td>
 			<td></td>
-			<td>${dto.Mid }</td>
+			<td>${dto.blueMid }</td>
 		</tr>
 		<tr>
-			<td>${dto.AdCarry }</td>
+			<td>${dto.redAdCarry }</td>
 			<td></td>
-			<td>${dto.AdCarry }</td>
+			<td>${dto.blueAdCarry }</td>
 		</tr>
 		<tr>
-			<td>${dto.Supporter }</td>
+			<td>${dto.redSupporter }</td>
 			<td></td>
-			<td>${dto.Supporter }</td>
+			<td>${dto.blueSupporter }</td>
 		</tr>
 		</tbody>
 	</table>

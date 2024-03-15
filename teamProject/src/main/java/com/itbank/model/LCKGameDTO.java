@@ -20,6 +20,9 @@ public class LCKGameDTO {
 	private String formatTime;
 	private int status;
 	private String url;
+	private String redTeamImg;
+	private String blueTeamImg;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -81,6 +84,18 @@ public class LCKGameDTO {
 	}
 	public void setFormatTime(String formatTime) {
 		this.formatTime = formatTime;
+	}
+	public String getRedTeamImg() {
+		return redTeamImg;
+	}
+	public void setRedTeamImg(String redTeamImg) {
+		this.redTeamImg = redTeamImg;
+	}
+	public String getBlueTeamImg() {
+		return blueTeamImg;
+	}
+	public void setBlueTeamImg(String blueTeamImg) {
+		this.blueTeamImg = blueTeamImg;
 	}
 	
 	

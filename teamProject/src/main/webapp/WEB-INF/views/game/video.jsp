@@ -82,7 +82,7 @@
                     <div class="video_left">
                         <div class="video_main">
                         	<!--영상 db필요 영상을 볼수 있게하는 사이트 주소로 이동  -->
-                            <a href="${cpath }/views/video/"><img src="https://image.zdnet.co.kr/2024/01/12/6674691196e1288f4a478ad5b37bc44a.png" width="100%" height="100%"></a>
+                            <a href="${cpath }/game/video/"><img src="https://image.zdnet.co.kr/2024/01/12/6674691196e1288f4a478ad5b37bc44a.png" width="100%" height="100%"></a>
                         </div>
                         <div class="video_main">
                             video

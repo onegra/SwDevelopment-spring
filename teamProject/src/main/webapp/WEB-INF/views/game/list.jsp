@@ -26,8 +26,9 @@
     	border-top: 1px solid #ededed;
     	border-bottom: 1px solid #EDEDEd;
     }
-    .list {
-        text-align: center;
+   
+    .game1 {
+    	border-bottom: #ededed;
     }
     .day {
         flex: 1;
@@ -59,6 +60,7 @@
         margin: auto;
         padding: 10px;
     }
+    
  </style>
 
 <div class="main">
@@ -69,11 +71,11 @@
                     2024  <button>></button>
                 </div>
             </div>
-			
         </div>
-        <div class="box item">
+        
+        <div class="item">
         <c:forEach var="date" items="${datelist }">
-        		<div>
+        		<div class="box">
         			<p class="date">${date }</p>
         			<c:forEach var="dto" items="${list }">
         				<c:if test="${date == dto.formatTime }">
@@ -94,7 +96,7 @@
                     <p>:</p>
                     <div class="score1">
                        <span>${dto.blueScore }</span>
-                       <img src="https://nng-phinf.pstatic.net/MjAyNDAxMDlfMjMy/MDAxNzA0Nzc3NjI1MTQ2.eGW1SDrSWl18jzPXlcvANpcCWKpYsf6IjimjGSDjoMQg.hlnvjyQsj9nIiMZeA4OhBE55kkwj5teP9EQv1jiyrdwg.PNG/nISCkMhXrbDUSwvvNBHU.png?type=f120_120"
+                       <img src="${dto.blueTeamImg }"
                           width="32px"
                           height="32px">
                        <span>${dto.blueTeam }</span>
@@ -104,23 +106,6 @@
                  <div class="btns">
                     <div class="btn">
                     	<!-- <c:choose>
-                                <c:when test="${dto.status == 0}">
-                                    <a href="${cpath}/game/video/${dto.idx}">
-                                        <button>다시보기</button>
-                                    </a>
-                                </c:when>
-                                <c:when test="${dto.status == 1}">
-                                    <a href="${cpath}/game/watch/${dto.idx}">
-                                        <button>경기 보러가기</button>
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${cpath}/game/predict/${dto.idx}">
-                                        <button>예측하기</button>
-                                    </a>
-                                </c:otherwise>
-                            </c:choose> -->
-                            <c:choose>
                                 <c:when test="${dto.status == 0 or dto.status == 1}">
                                     <a href="${cpath}/game/video/">
                                         <button>다시보기</button>
@@ -131,7 +116,30 @@
                                         <button>예측하기</button>
                                     </a>
                                 </c:otherwise>
+                            </c:choose> -->
+                            <!-- 0종료 1진행중 2예측 -->
+                            <c:choose>
+                                <c:when test="${dto.status == 0}">
+                                    <a href="${cpath}/game/video/">
+                                        <button>다시보기</button>
+                                    </a>
+                                    <a href="${cpath}/game/MVP/${dto.idx }">
+                                    <button>MVP투표하기</button>	
+                                    </a>
+                                    
+                                </c:when>
+                                <c:when test="${dto.status == 1}">
+                                    <a href="${cpath}/game/watch/">
+                                        <button>중계보기</button>
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${cpath}/game/predict/">
+                                        <button>예측하기</button>
+                                    </a>
+                                </c:otherwise>
                             </c:choose>
+                            
                         </div>
                  </div>
               </li>
