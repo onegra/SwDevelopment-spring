@@ -1,6 +1,6 @@
 package com.itbank.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 //idx             number          generated as identity primary key,
 //redTeam         varchar2(100)   not null,
@@ -12,12 +12,13 @@ import java.util.Date;
 //url             varchar2(300)   
 public class LCKGameDTO {
 	private int idx;
+	private String title;
 	private String redTeam;
 	private String blueTeam;
 	private int redScore;
 	private int blueScore;
-	private Date gameTime;
-	private String formatTime;
+	private Date gameDate; // gameDate -> date =>날짜 
+	private String gameTime;// String로 변환 =>시간
 	private int status;
 	private String url;
 	private String redTeamImg;
@@ -53,12 +54,7 @@ public class LCKGameDTO {
 	public void setBlueScore(int blueScore) {
 		this.blueScore = blueScore;
 	}
-	public Date getGameTime() {
-		return gameTime;
-	}
-	public void setGameTime(Date gameTime) {
-		this.gameTime = gameTime;
-	}
+	
 	public int getStatus() {
 		return status;
 	}
@@ -79,12 +75,7 @@ public class LCKGameDTO {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	public String getFormatTime() {
-		return formatTime;
-	}
-	public void setFormatTime(String formatTime) {
-		this.formatTime = formatTime;
-	}
+	
 	public String getRedTeamImg() {
 		return redTeamImg;
 	}
@@ -96,6 +87,24 @@ public class LCKGameDTO {
 	}
 	public void setBlueTeamImg(String blueTeamImg) {
 		this.blueTeamImg = blueTeamImg;
+	}
+	public Date getGameDate() {
+		return gameDate;
+	}
+	public void setGameDate(Date gameDate) {
+		this.gameDate = gameDate;
+	}
+	public String getGameTime() {
+		return gameTime;
+	}
+	public void setGameTime(String gameTime) {
+		this.gameTime = gameTime;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	

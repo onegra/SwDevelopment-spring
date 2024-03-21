@@ -1,6 +1,6 @@
 package com.itbank.service;
 
-import java.text.SimpleDateFormat;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +16,25 @@ public class GameService {
 
 	public List<LCKGameDTO> getlist() {
 		List<LCKGameDTO> list = dao.selectList();
-		for(LCKGameDTO dto : list) {
-			String date = "";
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			date = sdf.format(dto.getGameTime());
-			dto.setFormatTime(date);
-		}
 		return list;
 	}
 
-	public LCKMVPDTO selectOne(int idx) {
-		// TODO Auto-generated method stub
-		return dao.selectOne(idx);
+	public LCKMVPDTO selectMVP(int idx) {
+		return dao.selectMVP(idx);
 	}
 
+	public int MVPChoice(LCKMVPDTO dto) {
+		return dao.MVPChoice(dto);
+	}
+
+	public LCKMVPDTO MVPChoiceCheck(LCKMVPDTO dto) {
+		return dao.MVPChoiceCheck(dto);
+	}
+
+	public int MVPUpdate(LCKMVPDTO dto) {
+		// TODO Auto-generated method stub
+		return dao.MVPUpdate(dto);
+	}
 	
 
 	

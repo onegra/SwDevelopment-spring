@@ -64,95 +64,78 @@
  </style>
 
 <div class="main">
-        <div>
-            <div class="calender">
-                <div class="yyyy">
-                    <button> < </button>
-                    2024  <button>></button>
-                </div>
+	<div>
+		<div class="calender">
+        	<div class="yyyy">
+            	<button> < </button>
+                    2024  
+                <button>></button>
             </div>
         </div>
+    </div>
         
-        <div class="item">
-        <c:forEach var="date" items="${datelist }">
-        		<div class="box">
-        			<p class="date">${date }</p>
-        			<c:forEach var="dto" items="${list }">
-        				<c:if test="${date == dto.formatTime }">
-        					<ul class="box list">
-              <li class="game1 flex">
-                 <div class="day">
-                    <span class="time"><fmt:formatDate value="${dto.gameTime }" pattern="HH:mm"/></span>
-                    <span class="result">${dto.status == 0 ? "종료" : dto.status == 1 ? "경기중" : "예정"}</span>
-                 </div>
-                 <div class="score flex">
-                    <div class="score1">
-                       <span>${dto.redTeam }</span>	
-                       <img src="https://nng-phinf.pstatic.net/MjAyNDAxMDlfMjMy/MDAxNzA0Nzc3NjI1MTQ2.eGW1SDrSWl18jzPXlcvANpcCWKpYsf6IjimjGSDjoMQg.hlnvjyQsj9nIiMZeA4OhBE55kkwj5teP9EQv1jiyrdwg.PNG/nISCkMhXrbDUSwvvNBHU.png?type=f120_120"
-                          width="32px"
-                          height="32px">
-                       <span>${dto.redScore }</span>
-                    </div>
-                    <p>:</p>
-                    <div class="score1">
-                       <span>${dto.blueScore }</span>
-                       <img src="${dto.blueTeamImg }"
-                          width="32px"
-                          height="32px">
-                       <span>${dto.blueTeam }</span>
-                    </div>
-                 </div>
-                    
-                 <div class="btns">
-                    <div class="btn">
-                    	<!-- <c:choose>
-                                <c:when test="${dto.status == 0 or dto.status == 1}">
-                                    <a href="${cpath}/game/video/">
-                                        <button>다시보기</button>
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${cpath}/game/predict/">
-                                        <button>예측하기</button>
-                                    </a>
-                                </c:otherwise>
-                            </c:choose> -->
-                            <!-- 0종료 1진행중 2예측 -->
-                            <c:choose>
-                                <c:when test="${dto.status == 0}">
-                                    <a href="${cpath}/game/video/">
-                                        <button>다시보기</button>
-                                    </a>
-                                    <a href="${cpath}/game/MVP/${dto.idx }">
-                                    <button>MVP투표하기</button>	
-                                    </a>
-                                    
-                                </c:when>
-                                <c:when test="${dto.status == 1}">
-                                    <a href="${cpath}/game/watch/">
-                                        <button>중계보기</button>
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${cpath}/game/predict/">
-                                        <button>예측하기</button>
-                                    </a>
-                                </c:otherwise>
-                            </c:choose>
-                            
-                        </div>
-                 </div>
-              </li>
-           </ul>
-        				</c:if>
-        			</c:forEach>
-        		</div>
-        	</c:forEach>
-        </div>
-</div>
-
-
-
+    <div class="item">
+   	    <c:forEach var="date" items="${datelist }">
+        	<div class="box">
+        		<p class="date">${date }</p>
+        		<c:forEach var="dto" items="${list }">
+        			<c:if test="${date == dto.gameDate }">
+        				<ul class="box list">
+              				<li class="game1 flex">
+                 				<div class="day">
+                    				<span class="time">${dto.gameTime }</span>
+                    				<span class="result">${dto.status == 0 ? "종료" : dto.status == 1 ? "경기중" : "예정"}</span>
+                    				<span class="title">${dto.title }</span>
+                 				</div>
+            			   		<div class="score flex">
+                   					<div class="score1">
+                     					<span>${dto.redTeam }</span>	
+                       					<img src="${dto.redTeamImg }"
+                          					width="24px"
+                          					height="24px">
+                       					<span>${dto.redScore }</span>
+                    				</div>
+                    				<p style="text-align: center;"> : </p>
+                    				<div class="score1">
+                       					<span>${dto.blueScore }</span>
+                       					<img src="${dto.blueTeamImg }"
+                          					width="24px"
+                          					height="24px">
+                       					<span>${dto.blueTeam }</span>
+                    				</div>
+                 				</div>
+                 				<div class="btns">
+                    				<div class="btn">
+                            			<c:choose>
+                                			<c:when test="${dto.status == 0}">
+                                   				<a href="${cpath}/game/video/">
+                                       			<button>다시보기</button>
+                                   				</a>
+                                   				<a href="${cpath}/game/MVP/${dto.idx }">
+                                   				<button>MVP투표</button>	
+                                   				</a>  
+                                			</c:when>
+                                			<c:when test="${dto.status == 1}">
+                              	 				<a href="${cpath}/game/watch/">
+                                       			<button>중계보기</button>
+                                   				</a>
+                                			</c:when>
+                                			<c:otherwise>
+                                   				<a href="${cpath}/game/predict/">
+                                       			<button>예측하기</button>
+                                   				</a>
+                                			</c:otherwise>
+                            			</c:choose>
+                        			</div>
+                 				</div>
+              				</li>
+ 					    </ul>
+        			</c:if>
+        		</c:forEach>
+        	</div>
+        </c:forEach>
+    </div>
+</div>	
 
 </body>
 </html>
