@@ -30,27 +30,27 @@ public class AjaxController {
 		}
 		return row;
 	}
-	@PostMapping("/MVPTime")
-	public int MVPTime(@RequestBody Map<String, Date> Time) {
-		int row = 0;
-		String todayDateString = "";
-		String gameDateString = "";
-		
-		//System.out.println(Time.get("todayDate"));
-		//System.out.println(Time.get("gameDate"));
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		todayDateString = sdf.format(Time.get("todayDate"));
-		gameDateString = sdf.format(Time.get("gameDate"));
-		
-		//System.out.println("today : " + todayDateString);
-		//System.out.println("game : " + gameDateString);
-		int todayNum = Integer.parseInt(todayDateString);
-		int gameNum = Integer.parseInt(gameDateString);
-		
-		if(todayNum > gameNum) {
-			row = 1;
-		}
-		return row;
-	}
+//	@PostMapping("/MVPTime")
+//	public int MVPTime(@RequestBody Map<String, Date> Time) {
+//		int row = 0;
+//		String todayDateString = "";
+//		String gameDateString = "";
+//		
+//		//System.out.println(Time.get("todayDate"));
+//		//System.out.println(Time.get("gameDate"));
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+//		todayDateString = sdf.format(Time.get("todayDate"));
+//		gameDateString = sdf.format(Time.get("gameDate"));
+//		
+//		System.out.println("today : " + todayDateString);
+//		System.out.println("game : " + gameDateString);
+//		int todayNum = Integer.parseInt(todayDateString);
+//		int gameNum = Integer.parseInt(gameDateString);
+//		
+//		if(todayNum > gameNum) {
+//			row = 1;
+//		}
+//		return row;
+//	}
 
 }

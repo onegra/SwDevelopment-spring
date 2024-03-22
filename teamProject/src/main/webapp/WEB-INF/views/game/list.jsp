@@ -60,20 +60,24 @@
         margin: auto;
         padding: 10px;
     }
-    
  </style>
 
 <div class="main">
 	<div>
-		<div class="calender">
-        	<div class="yyyy">
-            	<button> < </button>
-                    2024  
-                <button>></button>
-            </div>
-        </div>
+<!-- 		<div class="calender"> -->
+<!--         	<div class="monthList"> -->
+<!--             	<button> < </button> -->
+<%--                     	<fmt:formatDate value="${dto.gameDate }" pattern="MM"/>월 --%>
+<!--                 <button>></button> -->
+<!--             </div> -->
+<!--         </div> -->
     </div>
-        
+        <ul style="background-color: white">
+        	<li><a href="${cpath }/game/list/2024-01">1월</a></li>
+        	<li><a href="${cpath }/game/list/2024-02">2월</a></li>
+        	<li><a href="${cpath }/game/list/2024-03">3월</a></li>
+        	<li><a href="${cpath }/game/list/2024-04">4월</a></li>
+        </ul>
     <div class="item">
    	    <c:forEach var="date" items="${datelist }">
         	<div class="box">

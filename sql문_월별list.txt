@@ -1,0 +1,24 @@
+SELECT
+    g.idx,
+    g.title,
+    g.redTeam,
+    rt.teamImg AS redTeamImg,
+    g.blueTeam,
+    bt.teamImg AS blueTeamImg,
+    g.redScore,
+    g.blueScore,
+    g.gameDate,
+    g.gameTime,
+    g.status,
+    g.stadium,
+    g.url
+FROM
+    lckGame g
+LEFT JOIN
+    lckTeamInfo rt ON g.redTeam = rt.teamName
+LEFT JOIN
+    lckTeamInfo bt ON g.blueTeam = bt.teamName
+WHERE 
+    TO_CHAR(g.gameDate, 'YYYY-MM') = #{dto.gameDate}
+ORDER BY 
+    g.gameDate;

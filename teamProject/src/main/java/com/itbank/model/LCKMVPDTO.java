@@ -42,7 +42,14 @@ public class LCKMVPDTO {
 	private int blueMidPercent;
 	private int blueAdCarryPercent;
 	private int blueSupporterPercent;
+	private int result;
 	
+	public int getResult() {
+		return result;
+	}
+	public void setResult(int result) {
+		this.result = result;
+	}
 	public int getIdx() {
 		return idx;
 	}

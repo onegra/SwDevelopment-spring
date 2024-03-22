@@ -40,9 +40,11 @@
 		font-size: 80px;
 		margin: 180px;
 	}
-	.hidden {
-		display: none;
-		}
+
+/* 	.hidden { */
+/* 		display: none; */
+/* 		} */
+	
 </style>
 
 <div class="main">
@@ -57,7 +59,9 @@
 		<span class="title">${dto.title }</span>
 		 <span class="day"><fmt:formatDate value="${dto.gameDate }" pattern="YYYY-MM-dd"/></span>
 		 <span class="time">${dto.gameTime }</span>
-		 <span class="hidden">이미 종료된 투표입니다</span>
+		 <span class="hidden">
+		 <c:if test="${dto.result == 1 }">이미 종료된 투표입니다</c:if>
+		 </span>
 	</div>
 	<table class="teamlist">
 		<thead>
@@ -114,10 +118,19 @@
 
 <!-- 득표 수를 실시간으로 출력하기 위한 스크립트 -->
 <script>
+	if(document.querySelector('.hidden').innerText == '이미 종료된 투표입니다') {
+		document.querySelectorAll('.count').forEach(c => {
+            c.style.backgroundColor = '#525252';});
+	}
     const cells = document.querySelectorAll('tbody .count');
 
     cells.forEach(cell => {
         cell.addEventListener('click', async function() {
+        	if(document.querySelector('.hidden').innerText == '이미 종료된 투표입니다') {
+        		
+        		return
+        	}
+        		
             cells.forEach(c => c.classList.remove('selected'));
             this.classList.add('selected');
 
@@ -146,32 +159,33 @@
             }
         });
     });
+    
+    
 </script>
-<script>
-  // 실제 시간 가져오기
-  setInterval(TimeHandler,5000)
-  async function TimeHandler() {
-	  const url = '${cpath}/Ajax/MVPTime'
-          const ob = {
-          		todayDate : new Date(),
-	  			gameDate : '${dto.gameDate }'
-          }
-          const opt = {
-          		method : 'POST',
-          		body: JSON.stringify(ob),
-          		headers: {'Content-Type' : 'application/json; charset=utf-8'}
-          }
-          const result = await fetch(url,opt).then(resp => resp.text())
-            if(result == 1) {
-	 			document.querySelector('.hidden').style.display = 'inline'; 
-	 			cells.forEach(cell => {
-	 		        cell.removeEventListener('click');
-	 		      });
-	 		    }
-	 		  };
-</script>
+
+<!-- <script> -->
+//   // 실제 시간 가져오기
+//   setInterval(TimeHandler,100)
+//   async function TimeHandler() {
+// 	  const url = '${cpath}/Ajax/MVPTime'
+//           const ob = {
+//           		todayDate : new Date(),
+// 	  			gameDate : '${dto.gameDate }'
+//           }
+//           const opt = {
+//           		method : 'POST',
+//           		body: JSON.stringify(ob),
+//           		headers: {'Content-Type' : 'application/json; charset=utf-8'}
+//           }
+//           const result = await fetch(url,opt).then(resp => resp.text())
+//             if(result == 1) {
+// 	 			document.querySelector('.hidden').innerText = '이미 종료된 투표입니다'; 
+//  		      }
+// 	 		  };
+<!-- </script> -->
+
 <style>
-    .selected {
+    .selected {	
         background-color: #5e7fea;
     }
 </style>

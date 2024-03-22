@@ -2,6 +2,7 @@ package com.itbank.controller;
 
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -45,17 +46,41 @@ public class GameController {
 		mav.addObject("datelist",datelist);
 		return mav;
 	}
-
-
+	@GetMapping("/list/{}")
+	public ModelAndView listDate() {
+		ModelAndView mav = new ModelAndView();
+		return mav;
+	}
 	
+	//게임의 mvp투표를 가져오고 그에 맞는 상황을 얻기위해 날짜를 비교해서 출력
 	@GetMapping("/MVP/{idx}")
 	public ModelAndView view(@PathVariable("idx") int idx) {
 		ModelAndView mav = new ModelAndView("/game/MVP");
 		LCKMVPDTO dto = gs.selectMVP(idx);
+		int result = 0;
+		String todayDateString = "";
+		String gameDateString = "";
+		
+		//System.out.println(Time.get("todayDate"));
+		//System.out.println(Time.get("gameDate"));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		todayDateString = sdf.format( new java.util.Date());
+		gameDateString = sdf.format(dto.getGameDate());
+		
+		//System.out.println("today : " + todayDateString);
+		//System.out.println("game : " + gameDateString);
+		int todayNum = Integer.parseInt(todayDateString);
+		int gameNum = Integer.parseInt(gameDateString);
+		
+		if(todayNum > gameNum) {
+			result = 1;
+		}
+		dto.setResult(result);
 		mav.addObject("dto", dto);
 		return mav;
 }
-			
+	
+	
 	@GetMapping("/video")
 	public String video() {
 		return "/game/video";

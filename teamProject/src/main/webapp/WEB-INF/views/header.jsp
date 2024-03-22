@@ -200,7 +200,7 @@
                         </div>
                     </li>
                     <li class="sub_menu_li">
-                        <a href="${cpath }/game/list">순위</a>
+                        <a href="${cpath }/game/list/">순위</a>
                         <div class="gnb_dep">
                             <ul class="sub_nav">
                                 <li>rn_1</li>
