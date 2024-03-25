@@ -2,17 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
+    .title_reply {
+        background-color: #141517;
+        margin: 0;
+        padding: 20px; 
+        height: 30px; 
+        font-size: 20px; 
+        font-weight: 700; 
+    }
     .left {
         width: 70%;
         float: left;
     }
     .search {
-        height: 50px;
+        margin: 10px;
+        border-right: 00px;
         background-color: #fff;
         border-bottom: 1px solid #ededed;
-        margin: 1px;
     }
     .video {
+        border: 1px solid blue;
         background-color: #fff;
         height: 900;
     }
@@ -26,14 +35,19 @@
         flex: 1;
     }
     .right {
-    	margin: 10px;
+       margin: 10px;
         width: 28%;
         height: 1000px;
         float: right;
-        background-color: blue;
+        border: 1px solid #ededed;
+        background-color: white;
         border-radius: 6px;
     }
-    .title {
+    .title_most {
+        padding: 10px; 
+        font-size: 18px; 
+        color: black; 
+        font-weight: 400;
         height: 50px;
         display: block;
 
@@ -41,8 +55,12 @@
     .video_main {
         border: 1px solid black;
         width: 300px;
-        height: 180px;
-        margin: 10px auto;
+        height: 200px;
+        margin: 60px auto;
+    }
+    .video_text {
+        padding: 5px;
+        border: 1px solid black;
     }
     .video_mini {
         width: 90%;
@@ -68,9 +86,10 @@
 
  </style>
 
+
 <div class="main">
-        <div>	
-        	<div style="background-color: #141517; height: 50px; font-size: 20px; font-weight: 700" >다시보기</div>
+        <div>   
+           <div class="title_reply">다시보기</div>
             <div class="left" >
                 
                 <div class="search">
@@ -81,9 +100,21 @@
                 <div class="video flex">
                     <div class="video_left">
                         <div class="video_main">
-                        	<!--영상 db필요 영상을 볼수 있게하는 사이트 주소로 이동  -->
+                            <ul class="video_list">
+                                
+                            </ul>
+                           <!--영상 db필요 영상을 볼수 있게하는 사이트 주소로 이동  -->
                             <a href="${cpath }/game/video/"><img src="https://image.zdnet.co.kr/2024/01/12/6674691196e1288f4a478ad5b37bc44a.png" width="100%" height="100%"></a>
+                            <div class="video_text">
+                                <span><a href="#" style="color: black;">KT-KDF 2세트(예시)</a></span>
+                                <div>
+                                    <span><a href="#" style="color: black;">조회수(예시)</a></span>
+                                </div>
+                                
+                            </div>
                         </div>
+                       
+
                         <div class="video_main">
                             video
                         </div>
@@ -107,8 +138,8 @@
                 </div>
             </div>
             <div class="right">
-            	
-                <div class="title" style="padding: 20px;">
+               
+                <div class="title_most">
                     많이 본 영상
                 </div>
                 <ul class="video_mini flex">
@@ -117,12 +148,12 @@
                     </div>
                     <div class="video_sub_title">title</div>  
                 </ul>
-                	
+                   
                 
             </div>
         </div>
         
-     </div>
+     </div>	
 
 
 

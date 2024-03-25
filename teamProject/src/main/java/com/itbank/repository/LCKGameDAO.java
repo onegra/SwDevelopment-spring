@@ -13,28 +13,8 @@ import com.itbank.model.LCKMVPDTO;
 public interface LCKGameDAO {
 	
 	//경기 일정을 출력하는 select 구문
-	@Select("SELECT\r\n" + 
-			//g.은 lckgame을 약어로 지칭
-			"    g.idx,\r\n" + 
-			"    g.title,\r\n" + 
-			"    g.redTeam,\r\n" + 
-			"    rt.teamImg AS redTeamImg,\r\n" + 
-			"    g.blueTeam,\r\n" + 
-			"    bt.teamImg AS blueTeamImg,\r\n" + 
-			"    g.redScore,\r\n" + 
-			"    g.blueScore,\r\n" + 
-			"    g.gameDate,\r\n" + 
-			"    g.gameTime,\r\n" + 
-			"    g.status,\r\n" + 
-			"    g.stadium,\r\n" + 
-			"    g.url\r\n" + 
-			"FROM\r\n" + 
-			"    lckGame g\r\n" + 
-			"LEFT JOIN\r\n" + 
-			"    lckTeamInfo rt ON g.redTeam = rt.teamName\r\n" + 
-			"LEFT JOIN\r\n" + 
-			"    lckTeamInfo bt ON g.blueTeam = bt.teamName\r\n" + 
-			"ORDER BY g.gameDate")
+	@Select("SELECT *\r\n" + 
+			"FROM lckGameView order by gameDate")
 	List<LCKGameDTO> selectList();
 
 	//경기 일정을 중복체크한 뒤 출력을 진행하는 구문
@@ -85,6 +65,12 @@ public interface LCKGameDAO {
 	//투표한 선수를 교체할 때 업데이트를 이용하여 만든 구문
 	@Update("UPDATE lckmvp SET playerName = #{playerName} WHERE userId = #{userId} AND gameIdx = #{gameIdx}")
 	int MVPUpdate(LCKMVPDTO dto);
+
+	@Select("SELECT *\r\n" + 
+			"FROM lckGameView\r\n" + 
+			"WHERE TO_CHAR(gameDate, 'YYYY-MM') = #{selectDate}" 
+			)
+	List<LCKGameDTO> selectDateList(String selectDate);
 
 	
 }

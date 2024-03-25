@@ -42,13 +42,25 @@ public class GameController {
 		LinkedHashSet<Date> set = new LinkedHashSet<>(datelist);
 		datelist = new ArrayList<Date>(set);
 		System.out.println("datelist : " + datelist);
+		System.out.println("list : " + list);
 		mav.addObject("list",list);
 		mav.addObject("datelist",datelist);
 		return mav;
 	}
-	@GetMapping("/list/{}")
-	public ModelAndView listDate() {
-		ModelAndView mav = new ModelAndView();
+	@GetMapping("/list/{selectDate}")
+	public ModelAndView listDate(@PathVariable("selectDate")String selectDate) {
+		ModelAndView mav = new ModelAndView("/game/list");
+		List<LCKGameDTO> list = gs.selectDateList(selectDate);
+		List<Date> datelist = new ArrayList<>();
+		for(LCKGameDTO dto : list) {
+			datelist.add(dto.getGameDate());
+		}
+		LinkedHashSet<Date> set = new LinkedHashSet<>(datelist);
+		datelist = new ArrayList<Date>(set);
+		System.out.println("datelist : " + datelist);
+		System.out.println("list : " + list);
+		mav.addObject("list",list);
+		mav.addObject("datelist",datelist);
 		return mav;
 	}
 	

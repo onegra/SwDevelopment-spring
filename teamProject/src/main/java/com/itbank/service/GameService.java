@@ -35,6 +35,11 @@ public class GameService {
 		// TODO Auto-generated method stub
 		return dao.MVPUpdate(dto);
 	}
+
+	public List<LCKGameDTO> selectDateList(String selectDate) {
+		// TODO Auto-generated method stub
+		return dao.selectDateList(selectDate);
+	}
 	
 
 	
