@@ -1,0 +1,706 @@
+<list.jsp>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
+<style>
+	.list_main {
+        width: 1380px;
+        position: relative;
+        margin: auto;
+        
+    }
+    .month_ul {  
+      border: 1px solid #eee;
+      width: auto;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 0;
+    }
+    .month_li {
+      	height: 50px;
+      	line-height: 250%;
+        display: inline-block;
+        background-color: #00ADB5;
+        font-size: 18px;
+        width: 340px;
+        text-align: center;
+    }
+   .month_li > .month_a {
+      font-weight: 570;
+      color: #151618;
+      margin: 10px;
+   }
+    .item {
+       color: #000;
+    }
+    .date {
+       font-weight: 900;
+       background-color: #cfcfcf;
+       padding: 13px 15px;
+       font-size: 18px;
+       border-top: 1px solid #ededed;
+       border-bottom: 1px solid #eee;
+       margin: 0;
+    }
+   
+    .game1 {
+       border-bottom: #ededed;
+    }
+    .day {
+        flex: 1;
+        margin: auto;
+        padding: 15px;
+    }
+    .score {
+        flex: 3;
+		justify-content: center;
+	}
+   .sub_score {
+	    display: flex;
+    	align-items: center;
+    	justify-content: space-between;
+	}
+	.score_num {
+		font-weight: 1000}
+    .time {
+        font-weight: 900;
+    }
+    .title {
+        color:#777;
+    }
+    .result {
+        width: 37px;
+        padding: 3px 0;
+        margin: 10px;
+        border-radius: 3px;
+        color: #a0a5b6;
+        background-color: #f5f6f9;
+    }
+    .btns {
+        flex: 1;
+        text-align: right;
+        margin: auto;
+        padding: 10px;
+    }
+	.score_center {
+    	display: flex;
+    	align-items: center;
+    	justify-content: center;	
+    	text-align: center;
+/*     	flex-grow: 1; */
+		width: 100px;
+	}
+
+	.score_center img,
+	.score_center span {
+    	margin: 0 3px; /* 이미지와 점수 사이에 조금의 여백 추가 */
+	}
+
+	.score_center .divider {
+    	text-align: center; /* 내부 텍스트 가운데 정렬 */
+    	font-weight: bold; /* 글자 두껍게 */
+    	color: #777; /* 색상 지정 */
+    	margin: 0 3px; /* : 표시와 주변 요소 사이에 조금의 여백 추가 */
+	}
+	.leftTeam{
+		width: 200px;
+		text-align: right;	
+	}
+	.rightTeam{
+		width: 200px;
+	}
+    button {
+    	border: 1px solid #cfcfcf;
+        display: inline-block;
+        padding: 8px 0px;
+        font-size: 13px;
+        font-weight: 600;
+        width: 74px;	
+        cursor: pointer;
+        text-align: center;	
+        border-radius: 3px;
+        background-color: #f5f6f9; 
+        color: #777; 
+    }
+
+    button:hover {
+        background-color: #eeeeee; 
+    }
+ </style>
+
+
+<div class="list_main">
+    <!-- 월별 게임 목록을 보여주는 ul -->
+    <ul class="month_ul">
+        <!-- 각 월을 나타내는 리스트 아이템 -->
+        <li class="month_li"><a class="month_a" href="${cpath }/game/list/2024-01">1월</a></li>
+        <li class="month_li"><a class="month_a" href="${cpath }/game/list/2024-02">2월</a></li>
+        <li class="month_li"><a class="month_a" href="${cpath }/game/list/2024-03">3월</a></li>
+        <li class="month_li"><a class="month_a" href="${cpath }/game/list/2024-04">4월</a></li>
+    </ul>
+
+    <!-- 게임 목록을 표시하는 부분 -->
+    <div class="item">
+        <!-- 날짜별로 게임 목록을 반복하여 표시 -->
+        <c:forEach var="date" items="${datelist}">
+            <div class="box">
+                <p class="date">${date}</p>
+                <!-- 각 날짜에 해당하는 게임 목록을 반복하여 표시 -->
+                <c:forEach var="dto" items="${list}">
+                    <!-- 날짜가 현재 게임의 날짜와 일치하는 경우 -->
+                    <c:if test="${date == dto.gameDate}">
+                        <!-- 게임 정보를 담은 리스트 -->
+                        <ul class="box list">
+                            <!-- 각 게임의 정보 -->
+                            <li class="game1 flex">
+                                <!-- 게임 날짜와 시간, 상태, 제목 등을 표시 -->
+                                <div class="day">
+                                    <span class="time">${dto.gameTime}</span>
+                                    <span class="result">${dto.status == 0 ? "종료" : dto.status == 1 ? "경기중" : "예정"}</span>
+                                    <span class="title">${dto.title}</span>
+                                </div>
+                                <!-- 게임 스코어를 표시하는 부분 -->
+                                <div class="score flex">
+                                    <div class="sub_score">
+                                        <span class="leftTeam">${dto.redTeam}</span>
+                                        <div class="score_center">
+                                            <!-- 빨간팀 이미지와 점수 -->
+                                            <img src="${dto.redTeamImg}" width="24px" height="24px">
+                                            <span class="score_num">${dto.redScore}</span>
+                                            <!-- 점수 구분자 -->
+                                            <span class="divider">:</span>
+                                            <!-- 파란팀 점수와 이미지 -->
+                                            <span class="score_num">${dto.blueScore}</span>
+                                            <img src="${dto.blueTeamImg}" width="24px" height="24px">
+                                        </div>
+                                        <span class="rightTeam">${dto.blueTeam}</span>
+                                    </div>
+                                </div>
+                                <!-- 버튼 영역 -->
+                                <div class="btns">
+                                    <div class="btn">
+                                        <!-- 게임 상태에 따라 버튼 표시 -->
+                                        <c:choose>
+                                            <!-- 게임이 종료된 경우 -->
+                                            <c:when test="${dto.status == 0}">
+                                                <!-- 다시보기 버튼 -->
+                                                <a href="${cpath}/game/reVideo/${dto.idx}">
+                                                    <button>다시보기</button>
+                                                </a>
+                                                <!-- 로그인 상태인 경우 MVP 투표 버튼 표시 -->
+                                                <c:if test="${not empty login.userid}">
+                                                    <a href="${cpath}/game/MVP/${dto.idx}">
+                                                        <button class="mvpBtn">MVP투표</button>
+                                                    </a>
+                                                </c:if>
+                                            </c:when>
+                                            <!-- 게임이 진행 중인 경우 -->
+                                            <c:when test="${dto.status == 1}">
+                                                <!-- 중계보기 버튼 -->
+                                                <a href="${cpath}/game/watch/">
+                                                    <button>중계보기</button>
+                                                </a>
+                                            </c:when>
+                                            <!-- 그 외의 경우 (게임이 예정된 경우) -->
+                                            <c:otherwise>
+                                                <!-- 예측하기 버튼 -->
+                                                <a href="${cpath}/matchPrediction">
+                                                    <button class="predictionBtn">예측하기</button>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </c:if>
+                </c:forEach>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+--------------------------
+
+<mvp.jsp>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
+<style>
+	.list_main {
+        width: 1380px;
+        position: relative;
+        margin: auto;
+        
+    }
+   p{
+   text-align: center;
+   }
+   .wjlol {
+   font-size: 30px;
+   text-align: center;
+   font-weight: 1000;
+   color: #00ADB5;
+   }
+   .mvp {
+   font-weight: 1000;   
+   text-align: center;
+   color: #393E46	; /* 텍스트 색상 지정 */
+   display: block;
+   font-size: 100px;
+   } 
+   .season {
+   color: #a0a5b6;
+   
+   }
+   .choice {
+   		height: 800px;
+   } 
+	.red_choice {
+		float: left;
+	}
+	.blue_choice {
+		float: right;
+	}
+	.red_choice, .blue_choice {
+		border: 1px solid #cfcfcf;
+		height: 700px;
+		padding: 20px;
+		width: 43%;
+		margin: 20px 20px;
+    	justify-content: center;
+    	flex-direction: column;
+    	
+	}
+	.teamname {
+		line-height: 200%;
+		font-size: 50px;
+		font-weight: 500;
+		border: 1px solid #393e46;
+		text-align: center;
+		height: 100px;
+		align-items: center;
+		padding: 10px;
+		margin: 20px;
+		border-radius: 6px;
+	}
+	.team {
+    	flex-direction: row;
+    	justify-content: space-between; 
+	}
+	.count {
+   		border: 1px solid #393e46;
+   		height: 60px;
+   		display: flex;
+    	justify-content: space-between;
+    	margin: 20px;
+    	padding: 10px;
+    	border-radius: 6px;
+    	position: relative;
+   	}
+	.player {
+		width: 150px;
+		height: 90%;
+		text-align: center;
+		border: 1px solid #393e46;
+		line-height: 300%;
+    	border-radius: 6px;
+	}
+	
+   	.votes {
+   		width: 200px;
+		line-height: 500%;
+    	
+		}
+   	.percent {
+   		font-size: 25px;
+   		text-align: center;
+   		line-height: 300%;
+   		width: 60px;		
+    	
+   	}
+   	.MVPlogo {
+   	position: absolute;
+   	right: 15px;
+   	font-weight: 700;
+   	padding: 2px;
+    background-color: #FF9800;
+    line-height: 100%;
+    font-size: 15px;
+   	}
+   	
+</style>
+
+
+<div class="list_main">
+	<!-- 제목 및 MVP 표시 부분 -->
+	<div class="title">
+	   <!-- 색상 선택 입력란 -->
+	   <input type="color">
+	   <!-- 대회명 표시 -->
+	   <p class="wjlol">2024 LoL 챔피언스 코리아 스프링</p>
+	   <!-- MVP 표시 -->
+	   <span class="mvp">MVP</span>
+	   <!-- 안내 문구 -->
+	   <p style="color: #858894;">팬들이 직접 선정한 매치 MVP 입니다.</p>
+	</div>
+	
+	<!-- 부제목 및 게임 정보 표시 부분 -->
+	<div class="sub_title" style="padding: 20px; text-align: right">
+	   <!-- 게임 제목 -->
+	   <span class="title">${dto.title }</span>
+	   <!-- 게임 날짜 -->
+	   <span class="day"><fmt:formatDate value="${dto.gameDate }" pattern="YYYY-MM-dd"/></span>
+	   <!-- 게임 시간 -->
+	   <span class="time">${dto.gameTime }</span>
+	</div>
+ 
+	<!-- 투표 종료 여부에 따라 메시지 표시 부분 -->
+	<div class="" style="text-align: center; font-size: 30px; margin: 30px;">
+	   <span class="end">
+		  <!-- 투표가 이미 종료된 경우 메시지 표시 -->
+		  <c:if test="${dto.result == 1 }">이미 종료된 투표입니다</c:if>
+	   </span> 
+	</div>
+	
+	<!-- 투표 선택지 표시 부분 -->
+	<div class="choice">
+	   <!-- 빨간 팀 선택지 -->
+	   <div class="red_choice flex">
+		  <!-- 팀 이름 -->
+		  <div class="teamname">${dto.redTeam }</div>
+		  <!-- 각 포지션 별 투표 결과 표시 -->
+		  <div class="team">
+			 <!-- 각 포지션의 투표 결과를 반복하여 표시 -->
+			 <div class="count">
+				<!-- 각 포지션별 MVP 표시 여부 및 투표 결과 표시 -->
+				<!-- 빨간 팀 상단(MVP 표시 여부 및 투표 결과) -->
+				<!-- 플레이어 이름, 투표 수, 퍼센트 표시 -->
+				<!-- 각 포지션별 투표 결과 반복 -->
+			 </div>
+		  </div>
+	   </div>
+	   
+	   <!-- 파란 팀 선택지 -->
+	   <div class="blue_choice flex">
+		  <!-- 팀 이름 -->
+		  <div class="teamname">${dto.blueTeam }</div>
+		  <!-- 각 포지션 별 투표 결과 표시 -->
+		  <div class="team">
+			 <!-- 각 포지션의 투표 결과를 반복하여 표시 -->
+			 <div class="count">
+				<!-- 각 포지션별 MVP 표시 여부 및 투표 결과 표시 -->
+				<!-- 파란 팀 상단(MVP 표시 여부 및 투표 결과) -->
+				<!-- 플레이어 이름, 투표 수, 퍼센트 표시 -->
+				<!-- 각 포지션별 투표 결과 반복 -->
+			 </div>
+		  </div>
+	   </div>
+	</div>
+ </div>
+ 
+ <!-- 득표 수를 실시간으로 출력하기 위한 스크립트 -->
+ <script>
+	// 투표가 이미 종료된 경우, 선택지 스타일 변경
+	if(document.querySelector('.end').innerText == '이미 종료된 투표입니다') {
+	   document.querySelectorAll('.count').forEach(c => {
+		  c.style.backgroundColor = '#cfcfcf';
+		  c.style.border = '1px solid #cfcfcf';
+	   });
+	}
+	
+	// 플레이어 클릭 시, 투표 처리
+	const cells = document.querySelectorAll('div .player');
+ 
+	cells.forEach(cell => {
+	   cell.addEventListener('click', async function() {
+		  // 투표가 이미 종료된 경우, 이벤트 처리 중지
+		  if(document.querySelector('.end').innerText == '이미 종료된 투표입니다') {	 
+			 return;
+		  }
+		  
+		  // 선택한 플레이어 하이라이팅 및 정보 저장
+		  cells.forEach(c => c.classList.remove('selected'));
+		  this.classList.add('selected');
+		  const selectedInfo = this.innerText
+		  const selectedUserid = '${login.userid}'
+		  const selectedGameIdx = '${dto.idx}'
+		  
+		  // AJAX를 통한 MVP 투표 처리
+		  const url = '${cpath}/Ajax/MVP'
+		  const ob = {
+			 playerName : selectedInfo,
+			 userId : selectedUserid,
+			 gameIdx   : selectedGameIdx
+		  }
+		  const opt = {
+			 method : 'POST',
+			 body: JSON.stringify(ob),
+			 headers: {'Content-Type' : 'application/json; charset=utf-8'}
+		  }
+		  const result = await fetch(url,opt).then(resp => resp.text())         
+		  // 투표 결과가 성공적으로 처리된 경우 페이지 새로고침
+		  if(result == 1) {
+			 location.reload()
+		  }
+	   });
+	});
+ 
+	// MVP로 선정된 플레이어 스타일 변경
+	document.querySelectorAll('.MVPlogo').forEach(logo => {
+	   const parentCount = logo.closest('.count');
+	   if (parentCount) {
+		  parentCount.style.backgroundColor = '#00ADB5';
+	   }
+	});
+ </script>
+ 
+
+
+
+<style>
+    .selected {   
+        background-color: #00ADB5;
+    }
+</style>
+
+</body>
+</html>
+
+----------------------------------
+
+//gamecontroller.java
+
+package com.itbank.controller;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.itbank.model.LCKGameDTO;
+import com.itbank.model.LCKMVPDTO;
+import com.itbank.service.GameService;
+
+@Controller
+@RequestMapping("/game")
+public class GameController {
+	
+	@Autowired private GameService gs;
+	
+	// 게임 목록 페이지를 불러오는 메서드
+	@GetMapping("/list")
+	public ModelAndView list() {
+		ModelAndView mav = new ModelAndView();
+		List<LCKGameDTO> list = gs.getlist(); // 게임 목록을 DB에서 가져옴
+		List<Date> datelist = new ArrayList<>();
+		
+		// 게임 날짜 목록을 추출하여 중복 제거
+		for(LCKGameDTO dto : list) {
+			datelist.add(dto.getGameDate());
+		}
+		LinkedHashSet<Date> set = new LinkedHashSet<>(datelist);
+		datelist = new ArrayList<Date>(set);
+		
+		// ModelAndView에 게임 목록 및 날짜 목록 추가
+		mav.addObject("list",list);
+		mav.addObject("datelist",datelist);
+		return mav;
+	}
+	
+	// 선택한 날짜의 게임 목록 페이지를 불러오는 메서드
+	@GetMapping("/list/{selectDate}")
+	public ModelAndView listDate(@PathVariable("selectDate")String selectDate) {
+		ModelAndView mav = new ModelAndView("/game/list");
+		List<LCKGameDTO> list = gs.selectDateList(selectDate); // 선택한 날짜의 게임 목록을 DB에서 가져옴
+		List<Date> datelist = new ArrayList<>();
+		
+		// 게임 날짜 목록을 추출하여 중복 제거
+		for(LCKGameDTO dto : list) {
+			datelist.add(dto.getGameDate());
+		}
+		LinkedHashSet<Date> set = new LinkedHashSet<>(datelist);
+		datelist = new ArrayList<Date>(set);
+		
+		// ModelAndView에 게임 목록 및 날짜 목록 추가
+		mav.addObject("list",list);
+		mav.addObject("datelist",datelist);
+		return mav;
+	}
+	
+	// MVP 투표 페이지를 불러오는 메서드
+	@GetMapping("/MVP/{idx}")
+	public ModelAndView view(@PathVariable("idx") int idx) {
+		ModelAndView mav = new ModelAndView("/game/MVP");
+		LCKMVPDTO dto = gs.selectMVP(idx); // 게임의 MVP 정보를 DB에서 가져옴
+		int result = 0;
+		String todayDateString = "";
+		String gameDateString = "";
+		List<String> players = gs.mvpPlayers(idx); // 게임의 MVP 후보 선수 목록을 DB에서 가져옴
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		todayDateString = sdf.format( new java.util.Date());
+		gameDateString = sdf.format(dto.getGameDate());
+		
+		int todayNum = Integer.parseInt(todayDateString);
+		int gameNum = Integer.parseInt(gameDateString);
+		
+		// 현재 날짜와 게임 날짜를 비교하여 투표 종료 여부 확인
+		if(todayNum > gameNum) {
+			result = 1;
+		}
+		
+		dto.setResult(result);
+		// ModelAndView에 MVP 정보 및 후보 선수 목록 추가
+		mav.addObject("dto", dto);
+		mav.addObject("players",players);
+		return mav;
+	}
+}
+
+----------------------------------------
+
+//kanajax.java
+
+package com.itbank.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.itbank.model.LCKMVPDTO;
+import com.itbank.service.GameService;
+
+@RestController
+@RequestMapping("/Ajax")
+public class KangWonjiAjaxController {
+	
+	@Autowired private GameService gs;
+	
+	// MVP 투표 결과를 처리하는 메서드
+	@PostMapping("/MVP")
+	public int MVPChoice(@RequestBody LCKMVPDTO dto) {
+		int row = 0; // 투표 처리 결과를 저장할 변수
+		
+		// 이미 투표한 사용자인지 확인
+		LCKMVPDTO check = gs.MVPChoiceCheck(dto);
+		
+		// 사용자가 투표하지 않은 경우 투표 처리, 이미 투표한 경우 투표 업데이트
+		if(check == null) {
+			row = gs.MVPChoice(dto); // 투표 처리
+		} else {
+			row = gs.MVPUpdate(dto); // 투표 업데이트
+		}
+		
+		return row; // 처리 결과 반환 (투표 처리 또는 업데이트된 행 수)
+	}
+}
+
+-----------------------------------------
+
+//gamedao.jsp
+
+
+package com.itbank.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+
+import com.itbank.model.GameDTO;
+
+@Repository
+public interface GameDAO {
+
+	// 게임 정보를 추가하는 메서드
+	@Insert("insert into lckgame (title,redTeam,blueTeam,redScore,blueScore,gameDate,gameTime,status,stadium)"
+			+ " values (#{title},#{redTeam},#{blueTeam},#{redScore},#{blueScore},#{gameDate},#{gameTime},#{status},#{stadium})")
+	int addGame(GameDTO dto);
+	
+	// 게임 정보를 업데이트하는 메서드
+	@Update("update lckGame set title = #{title},redTeam = #{redTeam},blueTeam = #{blueTeam},"
+			+ "redScore=#{redScore},blueScore=#{blueScore},gameDate=#{gameDate},gameTime=#{gameTime},status=#{status},stadium=#{stadium} "
+			+ "where gameDate = #{gameDate} and gameTime = #{gameTime}")
+	int updateGame(GameDTO dto);
+
+	// 특정 게임 정보를 조회하는 메서드
+	@Select("select * from lckGame where gameDate = #{gameDate} and gameTime = #{gameTime}")
+	GameDTO selectGame(GameDTO dto);
+
+	// 모든 게임 목록을 조회하는 메서드
+	@Select("select lg.* ,\r\n" + 
+			"    trunc(\r\n" + 
+			"        (\r\n" + 
+			"        (select count(*) from lckmatchprediction  where gameIdx = lg.idx and bettingTeam = 0)/case\r\n" + 
+			"        when (select count(*) from lckmatchprediction  where gameIdx = lg.idx) = 0 then 1\r\n" + 
+			"        else (select count(*) from lckmatchprediction  where gameIdx = lg.idx)\r\n" + 
+			"        end\r\n" + 
+			"    )*100\r\n" + 
+			"    )\r\n" + 
+			"    as redPer,\r\n" + 
+			"   trunc(\r\n" + 
+			"     (\r\n" + 
+			"        (select count(*) from lckmatchprediction  where gameIdx = lg.idx and bettingTeam = 1)/case\r\n" + 
+			"        when (select count(*) from lckmatchprediction  where gameIdx = lg.idx) = 0 then 1\r\n" + 
+			"        else (select count(*) from lckmatchprediction  where gameIdx = lg.idx)\r\n" + 
+			"        end\r\n" + 
+			"    )*100\r\n" + 
+			"   )\r\n" + 
+			"    as bluePer\r\n" + 
+			"from lckgame lg order by gameDate")
+	List<GameDTO> getGames();
+
+	// 게임의 상태를 업데이트하는 메서드
+	@Update("update lckgame set status = 1 where idx = #{idx}")
+	int updateStatus(int idx);
+
+	// 특정 게임의 인덱스를 조회하는 메서드
+	@Select("select idx from lckgame where gameDate = #{gameDate} and gameTime = #{gameTime}")
+	int getGameIdx(GameDTO dto);
+
+	// 특정 게임의 배팅 결과를 조회하는 메서드
+	@Select("select (case when redscore > bluescore then 0 when redscore < bluescore then 1 else 3 end) as bettingResult from lckgame where idx = #{gameIdx}")
+	int getBettingTeam(int gameIdx);
+
+	// 배팅에 성공한 유저 아이디를 조회하는 메서드
+	@Select("select userid from lckmatchprediction where gameIdx = #{gameIdx} and bettingTeam = #{bettingTeam}")
+	List<String> getBettingSuccessMember(Map<String, Integer> map);
+
+	// 유저의 티켓을 업데이트하는 메서드
+	@Update("update lckmember set ticket = ticket + 1 where userid = #{userid}")
+	int updateTicket(String user);
+
+	// 특정 게임의 상태를 조회하는 메서드
+	@Select("select * from lckGame where gameDate = #{gameDate} and gameTime = #{gameTime} and status = #{status}")
+	GameDTO selectStatus(GameDTO dto);
+
+	// 모든 게임 목록을 조회하는 메서드 (게임 날짜 순으로 정렬)
+	@Select("SELECT * FROM lckGame order by gameDate")
+    List<GameDTO> getGameList();
+	
+	// 특정 게임의 정보를 조회하는 메서드
+	@Select("SELECT * FROM lckGame where idx = #{idx}")
+	GameDTO selectOne(int idx);
+}
+
+
+
